@@ -10,12 +10,12 @@ const Container = styled.main`
 	align-items: center;
 `;
 
-const EmployeeCreationPage = () => {
+const EmployeeCreationPage = ({ addEmployee }) => {
 	return (
 		<Container>
 			<Link to='/employee-list'>View Current Employees</Link>
 			<h2>Create Employee</h2>
-			<Form />
+			<Form addEmployee={addEmployee} />
 		</Container>
 	);
 };

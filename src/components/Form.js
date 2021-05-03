@@ -16,39 +16,37 @@ const Label = styled.label`
 	margin: 10px 0 5px 0;
 `;
 
-const Form = () => {
+const Form = ({ addEmployee }) => {
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
-	const [address, setAddress] = useState({
-		street: '',
-		city: '',
-		zipcode: '',
-		state: '',
-	});
+	const [street, setStreet] = useState('');
+	const [city, setCity] = useState('');
+	const [zipcode, setZipcode] = useState('');
+	const [state, setState] = useState('');
 	const [birthDate, setBirthDate] = useState(new Date());
 	const [startDate, setStartDate] = useState(new Date());
 	const [department, setDepartment] = useState('');
 
-	const saveEmployee = (e) => {
-		e.preventDefault();
-		const employees = JSON.parse(localStorage.getItem('employees')) || [];
-		const employee = {
-			firstName,
-			lastName,
-			birthDate,
-			startDate,
-			department,
-			street: address.street,
-			city: address.city,
-			state: address.state,
-			zipCode: address.zipcode,
-		};
-		employees.push(employee);
-		localStorage.setItem('employees', JSON.stringify(employees));
+	const newEmployee = {
+		firstName,
+		lastName,
+		street,
+		city,
+		zipcode,
+		state,
+		birthDate,
+		startDate,
+		department,
 	};
 
 	return (
-		<StyledForm onSubmit={saveEmployee} id='create-employee'>
+		<StyledForm
+			onSubmit={(e) => {
+				e.preventDefault();
+				addEmployee(newEmployee);
+			}}
+			id='create-employee'
+		>
 			<Label htmlFor='first-name'>First Name</Label>
 			<input
 				type='text'
@@ -83,30 +81,26 @@ const Form = () => {
 			<input
 				id='street'
 				type='text'
-				onChange={(e) =>
-					setAddress({ ...address, street: e.target.value })
-				}
-				value={address.street}
+				onChange={(e) => setStreet(e.target.value)}
+				value={street}
 			/>
 
 			<Label htmlFor='city'>City</Label>
 			<input
 				id='city'
 				type='text'
-				onChange={(e) =>
-					setAddress({ ...address, city: e.target.value })
-				}
-				value={address.city}
+				onChange={(e) => setCity(e.target.value)}
+				value={city}
 			/>
 
 			<Label htmlFor='state'>State</Label>
 			<select
 				name='state'
 				id='state'
-				onChange={(e) =>
-					setAddress({ ...address, state: e.target.value })
-				}
-				value={address.state}
+				onChange={(e) => {
+					setState(e.target.value);
+				}}
+				value={state}
 			>
 				{states.map((state, index) => (
 					<option key={index}>{state.name}</option>
@@ -117,10 +111,8 @@ const Form = () => {
 			<input
 				id='zip-code'
 				type='number'
-				onChange={(e) =>
-					setAddress({ ...address, zipcode: e.target.value })
-				}
-				value={address.zipcode}
+				onChange={(e) => setZipcode(e.target.value)}
+				value={zipcode}
 			/>
 
 			<Label htmlFor='department'>Department</Label>
