@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Controller, useForm } from 'react-hook-form';
 
 import { departments, states } from './../data';
 
@@ -16,112 +17,80 @@ const Label = styled.label`
 	margin: 10px 0 5px 0;
 `;
 
-const Form = ({ addEmployee }) => {
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [street, setStreet] = useState('');
-	const [city, setCity] = useState('');
-	const [zipcode, setZipcode] = useState('');
-	const [state, setState] = useState('');
-	const [birthDate, setBirthDate] = useState(new Date());
-	const [startDate, setStartDate] = useState(new Date());
-	const [department, setDepartment] = useState('');
-
-	const newEmployee = {
-		firstName,
-		lastName,
-		street,
-		city,
-		zipcode,
-		state,
-		birthDate,
-		startDate,
-		department,
-	};
+const Form = () => {
+	const { register, handleSubmit, control } = useForm();
+	const onSubmit = (data) => console.log(data);
 
 	return (
-		<StyledForm
-			onSubmit={(e) => {
-				e.preventDefault();
-				addEmployee(newEmployee);
-			}}
-			id='create-employee'
-		>
-			<Label htmlFor='first-name'>First Name</Label>
+		<StyledForm onSubmit={handleSubmit(onSubmit)}>
+			<Label htmlFor='firstName'>First Name</Label>
 			<input
-				type='text'
-				id='first-name'
-				onChange={(e) => setFirstName(e.target.value)}
-				value={firstName}
+				{...register('firstName', { required: true })}
+				placeholder='First name'
 			/>
 
-			<Label htmlFor='last-name'>Last Name</Label>
+			<Label htmlFor='lastName'>Last Name</Label>
 			<input
-				type='text'
-				id='last-name'
-				onChange={(e) => setLastName(e.target.value)}
-				value={lastName}
+				{...register('lastName', { required: true })}
+				placeholder='Last name'
 			/>
 
-			<Label htmlFor='date-of-birth'>Date of Birth</Label>
-			<DatePicker
-				id='date-of-birth'
-				selected={birthDate}
-				onChange={(date) => setBirthDate(date)}
+			<Label htmlFor='birthDate'>Date of Birth</Label>
+			<Controller
+				name='birthDate'
+				control={control}
+				rules={{ required: true }}
+				render={({ field: { onChange, value } }) => (
+					<DatePicker
+						onChange={onChange}
+						selected={value}
+						placeholderText={new Date().toLocaleDateString('en-US')}
+					/>
+				)}
 			/>
 
-			<Label htmlFor='start-date'>Start Date</Label>
-			<DatePicker
-				id='start-date'
-				selected={startDate}
-				onChange={(date) => setStartDate(date)}
+			<Label htmlFor='startDate'>Start Date</Label>
+			<Controller
+				name='startDate'
+				control={control}
+				rules={{ required: true }}
+				render={({ field: { onChange, value } }) => (
+					<DatePicker
+						onChange={onChange}
+						selected={value}
+						placeholderText={new Date().toLocaleDateString('en-US')}
+					/>
+				)}
 			/>
 
 			<Label htmlFor='street'>Street</Label>
 			<input
-				id='street'
-				type='text'
-				onChange={(e) => setStreet(e.target.value)}
-				value={street}
+				{...register('street', { required: true })}
+				placeholder='Street'
 			/>
 
 			<Label htmlFor='city'>City</Label>
 			<input
-				id='city'
-				type='text'
-				onChange={(e) => setCity(e.target.value)}
-				value={city}
+				{...register('city', { required: true })}
+				placeholder='City'
 			/>
 
 			<Label htmlFor='state'>State</Label>
-			<select
-				name='state'
-				id='state'
-				onChange={(e) => {
-					setState(e.target.value);
-				}}
-				value={state}
-			>
+			<select {...register('state', { required: true })}>
 				{states.map((state, index) => (
 					<option key={index}>{state.name}</option>
 				))}
 			</select>
 
-			<Label htmlFor='zip-code'>Zip Code</Label>
+			<Label htmlFor='zipCode'>Zip Code</Label>
 			<input
-				id='zip-code'
+				{...register('zipCode', { required: true })}
 				type='number'
-				onChange={(e) => setZipcode(e.target.value)}
-				value={zipcode}
+				placeholder='10000'
 			/>
 
 			<Label htmlFor='department'>Department</Label>
-			<select
-				name='department'
-				id='department'
-				onChange={(e) => setDepartment(e.target.value)}
-				value={department}
-			>
+			<select {...register('department')}>
 				{departments.map((dpt, index) => (
 					<option key={index}>{dpt}</option>
 				))}
