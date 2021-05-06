@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Table from '../components/Table';
+import Table from '../components/Table/Table';
 
 const EmployeeListPage = ({ employees }) => {
 	return (
-		<div>
-			<Link to='/'>Home</Link>
+		<main>
+			<h1>Current Employees</h1>
 			<Table employees={employees} />
-		</div>
+			<Link to='/'>Home</Link>
+		</main>
 	);
 };
 

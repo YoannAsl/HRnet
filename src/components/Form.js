@@ -92,7 +92,9 @@ const Form = ({ addEmployee }) => {
 			<Label htmlFor='state'>State</Label>
 			<select {...register('state', { required: true })}>
 				{states.map((state, index) => (
-					<option key={index}>{state.name}</option>
+					<option key={index} value={state.abbreviation}>
+						{state.name}
+					</option>
 				))}
 			</select>
 
