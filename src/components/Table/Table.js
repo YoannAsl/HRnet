@@ -1,5 +1,10 @@
 import React, { Fragment, useMemo } from 'react';
-import { useSortBy, useTable, useGlobalFilter } from 'react-table';
+import {
+	useSortBy,
+	useTable,
+	useGlobalFilter,
+	usePagination,
+} from 'react-table';
 import styled from 'styled-components';
 
 import GlobalFilter from './GlobalFilter';
@@ -35,17 +40,35 @@ const Table = ({ employees }) => {
 		getTableProps,
 		getTableBodyProps,
 		headerGroups,
-		rows,
+		page,
 		prepareRow,
 		state,
 		setGlobalFilter,
-	} = useTable({ columns, data }, useGlobalFilter, useSortBy);
-
-	const { globalFilter } = state;
+		nextPage,
+		previousPage,
+		canNextPage,
+		canPreviousPage,
+		pageOptions,
+		setPageSize,
+	} = useTable({ columns, data }, useGlobalFilter, useSortBy, usePagination);
 
 	return (
 		<Fragment>
-			<GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+			<select
+				name='pageSize'
+				value={state.pageSize}
+				onChange={(e) => setPageSize(Number(e.target.value))}
+			>
+				{[10, 25, 50, 100].map((size) => (
+					<option key={size} value={size}>
+						Show {size} entries
+					</option>
+				))}
+			</select>
+			<GlobalFilter
+				filter={state.globalFilter}
+				setFilter={setGlobalFilter}
+			/>
 			<StyledTable {...getTableProps()}>
 				<thead>
 					{headerGroups.map((headerGroup) => (
@@ -71,7 +94,7 @@ const Table = ({ employees }) => {
 				</thead>
 				{/* Apply the table body props */}
 				<tbody {...getTableBodyProps()}>
-					{rows.map((row) => {
+					{page.map((row) => {
 						// Prepare the row for display
 						prepareRow(row);
 						return (
@@ -90,6 +113,20 @@ const Table = ({ employees }) => {
 					})}
 				</tbody>
 			</StyledTable>
+			<div>
+				<button
+					onClick={() => previousPage()}
+					disabled={!canPreviousPage}
+				>
+					Previous
+				</button>
+				<span>
+					Page {state.pageIndex + 1} of {pageOptions.length}
+				</span>
+				<button onClick={() => nextPage()} disabled={!canNextPage}>
+					Next
+				</button>
+			</div>
 		</Fragment>
 	);
 };
