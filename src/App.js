@@ -21,7 +21,7 @@ function App() {
 				lastName: faker.name.lastName(),
 				street: faker.address.streetName(),
 				city: faker.address.city(),
-				zipcode: faker.address.zipCode(),
+				zipCode: faker.address.zipCode(),
 				state: faker.address.stateAbbr(),
 				birthDate: faker.date.past().toLocaleDateString('en-US'),
 				startDate: faker.date.future().toLocaleDateString('en-US'),

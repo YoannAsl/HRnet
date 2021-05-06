@@ -1,5 +1,28 @@
 import React, { useMemo } from 'react';
-import { useTable } from 'react-table';
+import { useSortBy, useTable } from 'react-table';
+import styled from 'styled-components';
+
+const StyledTable = styled.table`
+	border: 1px black solid;
+	border-spacing: 0;
+	tr {
+		:last-child {
+			td {
+				border-bottom: 0;
+			}
+		}
+	}
+	th,
+	td {
+		margin: 0;
+		padding: 0.5rem;
+		border-right: 1px black solid;
+		border-bottom: 1px solid black;
+		:last-child {
+			border-right: 0;
+		}
+	}
+`;
 
 const Table = ({ employees }) => {
 	const data = useMemo(() => employees, [employees]);
@@ -40,13 +63,13 @@ const Table = ({ employees }) => {
 			},
 			{
 				Header: 'Zip Code',
-				accessor: 'zipcode',
+				accessor: 'zipCode',
 			},
 		],
 		[]
 	);
 
-	const tableInstance = useTable({ columns, data });
+	const tableInstance = useTable({ columns, data }, useSortBy);
 	const {
 		getTableProps,
 		getTableBodyProps,
@@ -56,20 +79,26 @@ const Table = ({ employees }) => {
 	} = tableInstance;
 
 	return (
-		<table {...getTableProps()}>
+		<StyledTable {...getTableProps()}>
 			<thead>
 				{headerGroups.map((headerGroup) => (
 					// Apply the header row props
 					<tr {...headerGroup.getHeaderGroupProps()}>
-						{
-							// Loop over the headers in each row
-							headerGroup.headers.map((column) => (
-								// Apply the header cell props
-								<th {...column.getHeaderProps()}>
-									{column.render('Header')}
-								</th>
-							))
-						}
+						{headerGroup.headers.map((column) => (
+							// Apply the header cell props
+							<th
+								{...column.getHeaderProps(
+									column.getSortByToggleProps()
+								)}
+							>
+								{column.render('Header')}
+								{column.isSorted
+									? column.isSortedDesc
+										? ' 🔽'
+										: ' 🔼'
+									: ''}
+							</th>
+						))}
 					</tr>
 				))}
 			</thead>
@@ -93,7 +122,7 @@ const Table = ({ employees }) => {
 					);
 				})}
 			</tbody>
-		</table>
+		</StyledTable>
 	);
 };
 

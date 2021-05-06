@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -17,21 +17,29 @@ const Label = styled.label`
 	margin: 10px 0 5px 0;
 `;
 
-const Form = () => {
+const Form = ({ addEmployee }) => {
 	const { register, handleSubmit, control } = useForm();
-	const onSubmit = (data) => console.log(data);
+	const onSubmit = (data) => {
+		// Formats data
+		data.birthDate = data.birthDate.toLocaleDateString('en-US');
+		data.startDate = data.startDate.toLocaleDateString('en-US');
+
+		addEmployee(data);
+	};
 
 	return (
 		<StyledForm onSubmit={handleSubmit(onSubmit)}>
 			<Label htmlFor='firstName'>First Name</Label>
 			<input
 				{...register('firstName', { required: true })}
+				type='text'
 				placeholder='First name'
 			/>
 
 			<Label htmlFor='lastName'>Last Name</Label>
 			<input
 				{...register('lastName', { required: true })}
+				type='text'
 				placeholder='Last name'
 			/>
 
@@ -45,6 +53,8 @@ const Form = () => {
 						onChange={onChange}
 						selected={value}
 						placeholderText={new Date().toLocaleDateString('en-US')}
+						// Bugged ATM
+						showMonthYearDropdown
 					/>
 				)}
 			/>
@@ -59,6 +69,8 @@ const Form = () => {
 						onChange={onChange}
 						selected={value}
 						placeholderText={new Date().toLocaleDateString('en-US')}
+						// Bugged ATM
+						showMonthYearDropdown
 					/>
 				)}
 			/>
@@ -66,12 +78,14 @@ const Form = () => {
 			<Label htmlFor='street'>Street</Label>
 			<input
 				{...register('street', { required: true })}
+				type='text'
 				placeholder='Street'
 			/>
 
 			<Label htmlFor='city'>City</Label>
 			<input
 				{...register('city', { required: true })}
+				type='text'
 				placeholder='City'
 			/>
 
@@ -96,7 +110,7 @@ const Form = () => {
 				))}
 			</select>
 
-			<button>Save</button>
+			<button type='submit'>Save</button>
 		</StyledForm>
 	);
 };
