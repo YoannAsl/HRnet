@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import faker from 'faker';
+import { Modal } from 'ya-basic-react-modal';
 
 import EmployeeCreationPage from './pages/EmployeeCreationPage';
 import EmployeeListPage from './pages/EmployeeListPage';
-
 function App() {
 	const [employees, setEmployees] = useState([]);
+	const [isOpened, setIsOpened] = useState(false);
 
 	const addEmployee = (newEmployee) => {
 		setEmployees([...employees, { ...newEmployee }]);
+		setIsOpened(true);
 	};
 
 	// Populates state with fake employees
@@ -32,15 +34,42 @@ function App() {
 		setEmployees(mockEmployees);
 	}, []);
 
+	const handleCloseModal = () => {
+		setIsOpened(false);
+	};
+
+	const modalStyle = {
+		content: {
+			position: 'absolute',
+			top: '50%',
+			left: '50%',
+			transform: 'translate(-50%, -50%)',
+			backgroundColor: 'white',
+			padding: '15px 30px',
+			borderRadius: '10px',
+		},
+		closeButton: {
+			color: 'red',
+		},
+	};
+
 	return (
 		<div className='App'>
 			<BrowserRouter>
-				<Route exact path='/'>
-					<EmployeeCreationPage addEmployee={addEmployee} />
-				</Route>
-				<Route path='/employee-list'>
-					<EmployeeListPage employees={employees} />
-				</Route>
+				<Switch>
+					<Route exact path='/'>
+						<EmployeeCreationPage addEmployee={addEmployee} />
+					</Route>
+					<Route path='/employee-list'>
+						<EmployeeListPage employees={employees} />
+					</Route>
+				</Switch>
+				<Modal
+					isOpened={isOpened}
+					content='Employee Created !'
+					handleCloseModal={handleCloseModal}
+					style={modalStyle}
+				/>
 			</BrowserRouter>
 		</div>
 	);
