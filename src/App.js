@@ -5,6 +5,7 @@ import { Modal } from 'ya-basic-react-modal';
 
 import EmployeeCreationPage from './pages/EmployeeCreationPage';
 import EmployeeListPage from './pages/EmployeeListPage';
+
 function App() {
 	const [employees, setEmployees] = useState([]);
 	const [isOpened, setIsOpened] = useState(false);
@@ -17,7 +18,7 @@ function App() {
 	// Populates state with fake employees
 	useEffect(() => {
 		let mockEmployees = [];
-		for (let i = 0; i < 100; i++) {
+		for (let i = 0; i < 10; i++) {
 			let newEmployee = {
 				firstName: faker.name.firstName(),
 				lastName: faker.name.lastName(),

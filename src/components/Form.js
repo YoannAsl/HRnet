@@ -53,8 +53,10 @@ const Form = ({ addEmployee }) => {
 						onChange={onChange}
 						selected={value}
 						placeholderText={new Date().toLocaleDateString('en-US')}
-						// Bugged ATM
-						showMonthYearDropdown
+						yearDropdownItemNumber={50}
+						showYearDropdown
+						scrollableYearDropdown
+						showMonthDropdown
 					/>
 				)}
 			/>
@@ -69,8 +71,10 @@ const Form = ({ addEmployee }) => {
 						onChange={onChange}
 						selected={value}
 						placeholderText={new Date().toLocaleDateString('en-US')}
-						// Bugged ATM
-						showMonthYearDropdown
+						yearDropdownItemNumber={50}
+						showYearDropdown
+						scrollableYearDropdown
+						showMonthDropdown
 					/>
 				)}
 			/>
