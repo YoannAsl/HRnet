@@ -6,12 +6,19 @@ import {
 	usePagination,
 } from 'react-table';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import GlobalFilter from './GlobalFilter';
-import { COLUMNS } from './columns';
+import { COLUMNS } from './COLUMNS';
+
+const SearchContainer = styled.div`
+	width: 80%;
+	display: flex;
+	justify-content: space-between;
+`;
 
 const StyledTable = styled.table`
-	border: 1px black solid;
+	width: 80%;
 	border-spacing: 0;
 	tr {
 		:last-child {
@@ -23,13 +30,20 @@ const StyledTable = styled.table`
 	th,
 	td {
 		margin: 0;
-		padding: 0.5rem;
-		border-right: 1px black solid;
+		padding: 1rem 1.2rem;
 		border-bottom: 1px solid black;
 		:last-child {
 			border-right: 0;
 		}
 	}
+	th {
+		user-select: none;
+		text-align: initial;
+	}
+`;
+
+const Pagination = styled.div`
+	margin-bottom: 10px;
 `;
 
 const Table = ({ employees }) => {
@@ -54,21 +68,27 @@ const Table = ({ employees }) => {
 
 	return (
 		<Fragment>
-			<select
-				name='pageSize'
-				value={state.pageSize}
-				onChange={(e) => setPageSize(Number(e.target.value))}
-			>
-				{[10, 25, 50, 100].map((size) => (
-					<option key={size} value={size}>
-						Show {size} entries
-					</option>
-				))}
-			</select>
-			<GlobalFilter
-				filter={state.globalFilter}
-				setFilter={setGlobalFilter}
-			/>
+			<SearchContainer>
+				<label>
+					Show{' '}
+					<select
+						name='pageSize'
+						value={state.pageSize}
+						onChange={(e) => setPageSize(Number(e.target.value))}
+					>
+						{[10, 25, 50, 100].map((size) => (
+							<option key={size} value={size}>
+								{size}
+							</option>
+						))}
+					</select>{' '}
+					entries
+				</label>
+				<GlobalFilter
+					filter={state.globalFilter}
+					setFilter={setGlobalFilter}
+				/>
+			</SearchContainer>
 			<StyledTable {...getTableProps()}>
 				<thead>
 					{headerGroups.map((headerGroup) => (
@@ -84,8 +104,8 @@ const Table = ({ employees }) => {
 									{column.render('Header')}
 									{column.isSorted
 										? column.isSortedDesc
-											? ' 🔽'
-											: ' 🔼'
+											? ' ▼'
+											: ' ▲'
 										: ''}
 								</th>
 							))}
@@ -113,7 +133,7 @@ const Table = ({ employees }) => {
 					})}
 				</tbody>
 			</StyledTable>
-			<div>
+			<Pagination>
 				<button
 					onClick={() => previousPage()}
 					disabled={!canPreviousPage}
@@ -121,14 +141,19 @@ const Table = ({ employees }) => {
 					Previous
 				</button>
 				<span>
-					Page {state.pageIndex + 1} of {pageOptions.length}
+					{' '}
+					Page {state.pageIndex + 1} of {pageOptions.length}{' '}
 				</span>
 				<button onClick={() => nextPage()} disabled={!canNextPage}>
 					Next
 				</button>
-			</div>
+			</Pagination>
 		</Fragment>
 	);
+};
+
+Table.propTypes = {
+	employees: PropTypes.array.isRequired,
 };
 
 export default Table;
