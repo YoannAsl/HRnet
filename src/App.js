@@ -48,9 +48,16 @@ function App() {
 			backgroundColor: 'white',
 			padding: '15px 30px',
 			borderRadius: '10px',
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
 		},
 		closeButton: {
-			color: 'red',
+			border: 'solid 1px grey',
+			backgroundColor: 'hsl(0,0%,90%)',
+			padding: '5px 10px',
+			borderRadius: '3px',
+			marginTop: '8px',
 		},
 	};
 
@@ -70,6 +77,7 @@ function App() {
 					content='Employee Created !'
 					handleCloseModal={handleCloseModal}
 					style={modalStyle}
+					buttonContent='Close'
 				/>
 			</BrowserRouter>
 		</div>
