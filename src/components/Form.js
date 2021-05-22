@@ -1,20 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useForm } from 'react-hook-form';
 
 import { departments, states } from './../data';
+const DatePicker = React.lazy(() => import('react-datepicker'));
 
 const StyledForm = styled.form`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	width: 15%;
-`;
-
-const Label = styled.label`
-	margin: 10px 0 5px 0;
+	label {
+		margin: 10px 0 5px 0;
+	}
+	input,
+	select {
+		margin-bottom: 7px;
+		border: none;
+		background-color: hsl(0, 0%, 94%);
+		border-radius: 3px;
+		padding: 7px 8px;
+	}
 `;
 
 const Form = ({ addEmployee }) => {
@@ -29,21 +37,13 @@ const Form = ({ addEmployee }) => {
 
 	return (
 		<StyledForm onSubmit={handleSubmit(onSubmit)}>
-			<Label htmlFor='firstName'>First Name</Label>
-			<input
-				{...register('firstName', { required: true })}
-				type='text'
-				placeholder='First name'
-			/>
+			<label htmlFor='firstName'>First Name</label>
+			<input {...register('firstName', { required: true })} type='text' />
 
-			<Label htmlFor='lastName'>Last Name</Label>
-			<input
-				{...register('lastName', { required: true })}
-				type='text'
-				placeholder='Last name'
-			/>
+			<label htmlFor='lastName'>Last Name</label>
+			<input {...register('lastName', { required: true })} type='text' />
 
-			<Label htmlFor='birthDate'>Date of Birth</Label>
+			<label htmlFor='birthDate'>Date of Birth</label>
 			<Controller
 				name='birthDate'
 				control={control}
@@ -61,7 +61,7 @@ const Form = ({ addEmployee }) => {
 				)}
 			/>
 
-			<Label htmlFor='startDate'>Start Date</Label>
+			<label htmlFor='startDate'>Start Date</label>
 			<Controller
 				name='startDate'
 				control={control}
@@ -79,21 +79,13 @@ const Form = ({ addEmployee }) => {
 				)}
 			/>
 
-			<Label htmlFor='street'>Street</Label>
-			<input
-				{...register('street', { required: true })}
-				type='text'
-				placeholder='Street'
-			/>
+			<label htmlFor='street'>Street</label>
+			<input {...register('street', { required: true })} type='text' />
 
-			<Label htmlFor='city'>City</Label>
-			<input
-				{...register('city', { required: true })}
-				type='text'
-				placeholder='City'
-			/>
+			<label htmlFor='city'>City</label>
+			<input {...register('city', { required: true })} type='text' />
 
-			<Label htmlFor='state'>State</Label>
+			<label htmlFor='state'>State</label>
 			<select {...register('state', { required: true })}>
 				{states.map((state, index) => (
 					<option key={index} value={state.abbreviation}>
@@ -102,14 +94,10 @@ const Form = ({ addEmployee }) => {
 				))}
 			</select>
 
-			<Label htmlFor='zipCode'>Zip Code</Label>
-			<input
-				{...register('zipCode', { required: true })}
-				type='number'
-				placeholder='10000'
-			/>
+			<label htmlFor='zipCode'>Zip Code</label>
+			<input {...register('zipCode', { required: true })} type='number' />
 
-			<Label htmlFor='department'>Department</Label>
+			<label htmlFor='department'>Department</label>
 			<select {...register('department')}>
 				{departments.map((dpt, index) => (
 					<option key={index}>{dpt}</option>
