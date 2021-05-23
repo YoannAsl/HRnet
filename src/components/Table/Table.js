@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import GlobalFilter from './GlobalFilter';
-import { COLUMNS } from './COLUMNS';
+import { COLUMNS } from './columns';
 
 const SearchContainer = styled.div`
 	width: 80%;
