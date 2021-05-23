@@ -18,10 +18,13 @@ const StyledForm = styled.form`
 	input,
 	select {
 		margin-bottom: 7px;
-		border: none;
-		background-color: hsl(0, 0%, 94%);
+		border: 1px solid grey;
 		border-radius: 3px;
-		padding: 7px 8px;
+		padding: 7px;
+	}
+	button {
+		margin-top: 10px;
+		padding: 4px 10px;
 	}
 `;
 
@@ -103,7 +106,6 @@ const Form = ({ addEmployee }) => {
 					<option key={index}>{dpt}</option>
 				))}
 			</select>
-
 			<button type='submit'>Save</button>
 		</StyledForm>
 	);

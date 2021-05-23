@@ -18,10 +18,9 @@ const SearchContainer = styled.div`
 	input,
 	select {
 		margin-bottom: 7px;
-		border: none;
-		background-color: hsl(0, 0%, 94%);
+		border: 1px solid grey;
 		border-radius: 3px;
-		padding: 4px;
+		padding: 3px;
 	}
 `;
 
