@@ -8,11 +8,14 @@ import EmployeeListPage from './pages/EmployeeListPage';
 
 function App() {
 	const [employees, setEmployees] = useState([]);
-	const [isOpened, setIsOpened] = useState(false);
+	const [isModalOpened, setIsModalOpened] = useState(false);
+	const [modalContent, setModalContent] = useState('');
 
 	const addEmployee = (newEmployee) => {
 		setEmployees([...employees, { ...newEmployee }]);
-		setIsOpened(true);
+
+		setModalContent('Employee Created !');
+		setIsModalOpened(true);
 	};
 
 	// Populates state with fake employees
@@ -36,7 +39,7 @@ function App() {
 	}, []);
 
 	const handleCloseModal = () => {
-		setIsOpened(false);
+		setIsModalOpened(false);
 	};
 
 	const modalStyle = {
@@ -53,10 +56,6 @@ function App() {
 			alignItems: 'center',
 		},
 		closeButton: {
-			border: 'solid 1px grey',
-			backgroundColor: 'hsl(0,0%,90%)',
-			padding: '5px 10px',
-			borderRadius: '3px',
 			marginTop: '8px',
 		},
 	};
@@ -73,8 +72,8 @@ function App() {
 					</Route>
 				</Switch>
 				<Modal
-					isOpened={isOpened}
-					content='Employee Created !'
+					isOpened={isModalOpened}
+					content={modalContent}
 					handleCloseModal={handleCloseModal}
 					style={modalStyle}
 					buttonContent='Close'
