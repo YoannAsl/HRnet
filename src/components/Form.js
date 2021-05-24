@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller, useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
+import Select from 'react-select';
 
 import { departments, states } from './../data';
 
@@ -15,18 +16,38 @@ const StyledForm = styled.form`
 	label {
 		margin: 10px 0 5px 0;
 	}
-	input,
-	select {
+	input {
 		margin-bottom: 7px;
 		border: 1px solid grey;
 		border-radius: 3px;
 		padding: 7px;
 	}
-	button {
+	button[type='submit'] {
 		margin-top: 10px;
 		padding: 4px 10px;
 	}
 `;
+
+const selectStyle = {
+	menu: () => ({
+		marginBottom: '7px',
+		border: '1px solid grey',
+		borderRadius: '3px',
+	}),
+	container: () => ({
+		marginBottom: '7px',
+	}),
+	control: (provided) => ({
+		...provided,
+		border: '1px solid grey',
+		borderRadius: '3px',
+		width: '200px',
+		boxShadow: 'none',
+		'&:hover': {
+			border: '1px solid grey',
+		},
+	}),
+};
 
 const Form = ({ addEmployee }) => {
 	const { register, handleSubmit, control } = useForm();
@@ -34,6 +55,8 @@ const Form = ({ addEmployee }) => {
 		// Formats data
 		data.birthDate = data.birthDate.toLocaleDateString('en-US');
 		data.startDate = data.startDate.toLocaleDateString('en-US');
+		data.state = data.state.value;
+		data.department = data.department.value;
 
 		addEmployee(data);
 	};
@@ -89,23 +112,31 @@ const Form = ({ addEmployee }) => {
 			<input {...register('city', { required: true })} type='text' />
 
 			<label htmlFor='state'>State</label>
-			<select {...register('state', { required: true })}>
-				{states.map((state, index) => (
-					<option key={index} value={state.abbreviation}>
-						{state.name}
-					</option>
-				))}
-			</select>
+			<Controller
+				name='state'
+				control={control}
+				rules={{ required: true }}
+				render={({ field }) => (
+					<Select {...field} options={states} styles={selectStyle} />
+				)}
+			/>
 
 			<label htmlFor='zipCode'>Zip Code</label>
 			<input {...register('zipCode', { required: true })} type='number' />
 
 			<label htmlFor='department'>Department</label>
-			<select {...register('department')}>
-				{departments.map((dpt, index) => (
-					<option key={index}>{dpt}</option>
-				))}
-			</select>
+			<Controller
+				name='department'
+				control={control}
+				rules={{ required: true }}
+				render={({ field }) => (
+					<Select
+						{...field}
+						options={departments}
+						styles={selectStyle}
+					/>
+				)}
+			/>
 			<button type='submit'>Save</button>
 		</StyledForm>
 	);
