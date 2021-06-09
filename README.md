@@ -1,12 +1,12 @@
 # HRnet
 
-React version of the HRnet app
+HRnet is a small application that helps manage employees.
 
-## Installation
+## Installation 
 
 1. Clone this repository
     ```sh
-    git clone https://github.com/YoannAsl/YoannAgesilas_14_02052021.git
+    git clone https://github.com/YoannAsl/HRnet.git
     ```
 2. Install NPM packages
     ```sh
