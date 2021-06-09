@@ -2,6 +2,9 @@
 
 HRnet is a small application that helps manage employees.
 
+#### Technologies
+- [React](https://reactjs.org/)
+- [styled-components](https://styled-components.com/)
 ## Installation 
 
 1. Clone this repository
