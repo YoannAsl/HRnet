@@ -33,6 +33,7 @@ const selectStyle = {
 		marginBottom: '7px',
 		border: '1px solid grey',
 		borderRadius: '3px',
+		width: '198px',
 	}),
 	container: () => ({
 		marginBottom: '7px',
@@ -47,6 +48,8 @@ const selectStyle = {
 			border: '1px solid grey',
 		},
 	}),
+	singleValue: (provided) => ({ ...provided, color: 'black' }),
+	placeholder: () => ({ display: 'none' }),
 };
 
 const Form = ({ addEmployee }) => {

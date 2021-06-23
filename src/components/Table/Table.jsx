@@ -54,7 +54,6 @@ const Pagination = styled.div`
 `;
 
 const Table = ({ employees }) => {
-	const data = useMemo(() => employees, [employees]);
 	const columns = useMemo(() => COLUMNS, []);
 
 	const {
@@ -71,7 +70,12 @@ const Table = ({ employees }) => {
 		canPreviousPage,
 		pageOptions,
 		setPageSize,
-	} = useTable({ columns, data }, useGlobalFilter, useSortBy, usePagination);
+	} = useTable(
+		{ columns, data: employees },
+		useGlobalFilter,
+		useSortBy,
+		usePagination
+	);
 
 	return (
 		<Fragment>

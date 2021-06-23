@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import Form from './../components/Form';
+import Form from '../components/Form';
 
 const Container = styled.main`
 	display: flex;
